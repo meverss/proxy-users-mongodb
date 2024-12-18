@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { getUserName, createUser, deleteUser, getAllUsers, getOneUser, updateUser, updateUserNoPass, searchAvailableUser } from '../controllers/UsersController.js'
-import { exportPDF } from '../libs/pdf.js'
 
 const router = Router()
 
