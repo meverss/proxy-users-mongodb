@@ -3,25 +3,6 @@ import jwt from 'jsonwebtoken'
 import { nanoid } from 'nanoid'
 import User from '../database/models/users.model.js'
 
-// SETTING CUSTOM DATE
-export const getDate = () => {
-  const timestamp = Date.now()
-  const today = new Date(timestamp)
-  const yyyy = today.getFullYear()
-  let mm = today.getMonth() + 1 // Months start at 0!
-  let dd = today.getDate() // prints the day of the month (1-31)
-  let hh = today.getHours() // prints the hour (0-23)
-  let min = today.getMinutes() // prints the minute (0-59)
-  let sec = today.getSeconds() // prints the second (0-59)
-  if (dd < 10) dd = '0' + dd
-  if (mm < 10) mm = '0' + mm
-  if (hh < 10) hh = '0' + hh
-  if (min < 10) min = '0' + min
-  if (sec < 10) sec = '0' + sec
-
-  return dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
-}
-
 const passAuth = (req) => {
   const auth = req.get('authorization')
   if (auth && auth.toLowerCase().startsWith('bearer')) {

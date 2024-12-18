@@ -64,7 +64,7 @@ const CompLogin = ({ notify, getLoginMsg }) => {
 
     try {
       const res = await axios.post(URI, { user, password })
-      if (res.status !== 401) {
+      if (res.status !== 403) {
         localStorage.setItem('token', res.data.token)
 	localStorage.setItem('msg', res.data.message)
         cleanForm()

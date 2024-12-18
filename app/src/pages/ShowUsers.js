@@ -13,6 +13,7 @@ import unauthorized from '../images/401.webp'
 import { serverContext } from '../App'
 import { CompLoader } from '../components/CompLoader'
 import exportPDF from "../libs/usersPDF.js"
+import { formatDate  } from '../libs/formatDate.js'
 
 const CompShowusers = ({ getname, notify }) => {
   const server = useContext(serverContext)
@@ -286,8 +287,8 @@ const CompShowusers = ({ getname, notify }) => {
                             <tr key={user.id} className='table-sm'>
                               <td><p id='admUser'> {user.user}</p> </td>
                               <td><p> {user.fullname}</p> </td>
-                              <td><p> {user.createdAt}</p> </td>
-                              <td><p> {user.updatedAt} </p></td>
+                              <td><p> {formatDate(user.createdAt)}</p> </td>
+                              <td><p> {formatDate(user.updatedAt)} </p></td>
                               <td> <p>{user.enabled === true ? <span style={{ color: '#36956A' }}>Activo</span> : <span style={{ color: '#D3691F' }}>Inactivo</span>} </p></td>
                               <td className='actions'>
                                 <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><SlSettings className='actionIcon' size='26px' /></Link>

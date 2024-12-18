@@ -6,59 +6,63 @@ export const userLogin = async (req, res) => {
     const { user, password } = req.body
 
     let userFound = await User.findOne({ user })
-    let adminCreated = false
-    let message = 'Bienvenido(a)!'
+    let newAdmin = false
+    let message = 'Usuario autenticado'
     let newAdminMessage = 'Se ha creado un usuario ADMINISTRADOR'
-
+    let id = ''
+    let fullname = ''
+    let passwordHashed = ''
+    
     // Create Admin if it doesn't exist
     if(!userFound && user === 'admin'){
 	try {
-	    const admpwd = await argon2.hash(password, {type: argon2.argon2id })
-	    const createAdmin = new User({
+	    const hash = await argon2.hash(password, {type: argon2.argon2id })
+	    const createdAdmin = new User({
 		user: 'admin',
 		fullname: 'Administrador',
-		password: admpwd,
+		password: hash,
 		enabled: true
 	    })
 
-	    createAdmin.save()
+	    createdAdmin.save()
 	    message = newAdminMessage
-	    userFound = await User.findOne({ user })
-	    adminCreated = true
+	    id = createdAdmin._id
+	    fullname = createdAdmin.fullname
+	    passwordHashed = createdAdmin.password
+	    newAdmin = true
 	    
 	    console.log('Created an ADMIN user')
 			
 	} catch (error) {
 	    console.log(error)
 	}  
+    } else if(userFound){
+	id = userFound._id
+    	fullname = userFound.fullname
+	passwordHashed = userFound.password
+    } else if(!userFound || !newAdmin){
+	res.sendStatus(403)
     }
-    
-    if((userFound && userFound.enabled === true) || adminCreated === true){
-	const id = userFound._id
-	const { fullname } = userFound
-	const passwordHashed = userFound.password
 
-	// Verify credentials and create token //
+    // Verify credentials and create token //
+
+    const authorizedUser = ((userFound && userFound.enabled == true) || newAdmin)
+    if(authorizedUser){
 	const argon2format = /^\$argon2id\$v=(?:16|19)\$m=\d{1,10},t=\d{1,10},p=\d{1,3}(?:,keyid=[A-Za-z0-9+/]{0,11}(?:,data=[A-Za-z0-9+/]{0,43})?)?\$[A-Za-z0-9+/]{11,64}\$[A-Za-z0-9+/]{16,86}$/i
 	const chkformat = argon2format.test(passwordHashed)
 	const verifyPassword = chkformat && await argon2.verify(passwordHashed, password)
 
 	if (verifyPassword) {
-	    const TOKEN_KEY = process.env.SECRET
+    	    const TOKEN_KEY = process.env.SECRET
     	    const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
 
     	    res.json({ id, user, fullname, token, message })
-    	    console.log(message)
     	    
 	} else {
-	    res.status(401).json({
-		message: 'Credenciales inválidas, intente de nuevo'
-	    })
+	    res.sendStatus(403)
 	}
     } else {
-	res.status(401).json({
-	    message: 'Usuario o contraseña incorrectos'
-	})
+	res.sendStatus(403)
     }
 }
 	
