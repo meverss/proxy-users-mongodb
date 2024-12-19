@@ -1,25 +1,8 @@
 import jspdf from "jspdf"
 import autoTable from 'jspdf-autotable'
+import { formatDate } from './formatDate.js'
 
 export const exportPDF = (data, option) => {
-
-const getDate = () =>{
-    const timestamp = Date.now()
-    const today = new Date(timestamp)
-    const yyyy = today.getFullYear()
-    let mm = today.getMonth() + 1	// Months start at 0!
-    let dd = today.getDate() 		// prints the day of the month (1-31)
-    let hh = today.getHours() 		// prints the hour (0-23)
-    let min = today.getMinutes() 	// prints the minute (0-59)
-    let sec = today.getSeconds() 	// prints the second (0-59)
-    if (dd < 10) dd = '0' + dd
-    if (mm < 10) mm = '0' + mm
-    if (hh < 10) hh = '0' + hh
-    if (min < 10) min = '0' + min                                                 
-    if (sec < 10) sec = '0' + sec
-
-    return dd + '/' + mm + '/' + yyyy + ' ' + hh + ':' + min + ':' + sec
-}
     const doc = new jspdf({
 	orientation: 'p',
 	unit: 'mm',
@@ -35,14 +18,14 @@ const getDate = () =>{
     switch(option){
 	case 't':
 	    const all = data.map(d =>{
-		ulist.push([`${i}`, `${d.user}`, `${d.fullname}`, `${d.createdAt}`, `${d.updatedAt}`, `${d.enabled === true ? 'Activo' : 'Inactivo'}`],)
+		ulist.push([i, d.user, d.fullname, formatDate(d.createdAt), formatDate(d.updatedAt), `${d.enabled === true ? 'Activo' : 'Inactivo'}`],)
 	        i += 1
 	    })
     	    break
 	case 'a':
 	    const active = data.filter(e => e.enabled === true)
 	    const act = active.map(e =>{
-		ulist.push([`${i}`, `${e.user}`, `${e.fullname}`, `${e.createdAt}`, `${e.updatedAt}`,  'Activo'],)
+		ulist.push([i, e.user, e.fullname, formatDate(e.createdAt), formatDate(e.updatedAt),  'Activo'],)
 	        i += 1
 	    })
 	    view = 'Activos'
@@ -50,7 +33,7 @@ const getDate = () =>{
 	case 'i':
 	    const inaactive = data.filter(e => e.enabled === false)
 	    const inact = inaactive.map(e =>{
-		ulist.push([`${i}`, `${e.user}`, `${e.fullname}`, `${e.createdAt}`, `${e.updatedAt}`,  'Inactivo'],)
+		ulist.push([i, e.user, e.fullname, formatDate(e.createdAt), formatDate(e.updatedAt),  'Inactivo'],)
 	        i += 1
 	    })
 	    view = 'Inactivos'
@@ -72,9 +55,9 @@ const getDate = () =>{
     doc.setFont('helvetica','normal')
     doc.text(view, 77, y)
     doc.setFont('helvetica','bold')
-    doc.text('F/H:', 150, y)
+    doc.text('F/H:', 142, y)
     doc.setFont('helvetica','normal')
-    doc.text(getDate(), 160, y)
+    doc.text(formatDate(Date.now()), 152, y)
     y += 3
     doc.line(14,y,200,y,'FD')
 

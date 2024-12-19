@@ -74,7 +74,7 @@ const CompEditUser = ({ getname, notify }) => {
       
       if (res.data.user === 'admin') {
         try {
-          if (res.data.enabled === 1) {
+          if (res.data.enabled === true) {
             stateSwitch.checked = true
             stateLabel.innerHTML = 'Activo'
           } else {
@@ -105,14 +105,14 @@ const CompEditUser = ({ getname, notify }) => {
 
   if (stateSwitch !== null){
 
-    if (enabled === 1) {
+    if (enabled === true) {
       stateSwitch.checked = false
       stateLabel.innerHTML = 'Inactivo'
-      setEnabled(0)
+      setEnabled(false)
     } else {
       stateSwitch.checked = true
       stateLabel.innerHTML = 'Activo'
-      setEnabled(1)
+      setEnabled(true)
     }
   }
   }

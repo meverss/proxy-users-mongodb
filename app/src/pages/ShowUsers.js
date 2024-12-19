@@ -4,16 +4,19 @@
 import axios from '../libs/axios.js'
 import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
-import { SlUserFollow, SlMagnifier, SlSettings, SlPrinter } from "react-icons/sl"
-import { ImFilePdf } from "react-icons/im"
-import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti"
 import CompPagination from '../components/CompPagination'
-import unauthorized from '../images/401.webp'
-import { serverContext } from '../App'
 import { CompLoader } from '../components/CompLoader'
+import CompNoAuth from '../components/CompNoAuth.js'
+import { serverContext } from '../App'
 import exportPDF from "../libs/usersPDF.js"
 import { formatDate  } from '../libs/formatDate.js'
+
+import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
+import { SlUserFollow, SlMagnifier, SlSettings } from "react-icons/sl"
+import { ImFilePdf } from "react-icons/im"
+import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti"
+import { FaUserPlus } from "react-icons/fa"
+import { FaUserPen  } from "react-icons/fa6"
 
 const CompShowusers = ({ getname, notify }) => {
   const server = useContext(serverContext)
@@ -35,7 +38,6 @@ const CompShowusers = ({ getname, notify }) => {
   const [sortArrow, setSortArrow] = useState()
   const [sortParam, setSortParam] = useState('Usuario')
   const [sortedUsers, setSortedUsers] = useState([])
-
 
   const navigate = useNavigate()
 
@@ -228,22 +230,6 @@ const CompShowusers = ({ getname, notify }) => {
   	exportPDF(users, opt)
   }
 
-  const CompNoAuth = () => {
-    return (
-      <>
-        <div className='unauthCont' hidden={ admin ? true : false}>
-    	    <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unauthorized} alt='Unathorized'></img></a>
-    	    <span className='noAccessText' style={{
-                fontSize: window.innerWidth <= 420 ? '20px' : '36px',
-                fontWeight: 'bold'
-    	    }}>
-            ACCESO RESTRINGIDO
-            </span>
-        </div>
-      </>
-    )
-  }
-
   return (
     <>
       {
@@ -264,7 +250,7 @@ const CompShowusers = ({ getname, notify }) => {
                         />
                       </div>
                       <div className='gap-2 d-md-flex justify-content-md-center btn-tools-group'>
-                        <Link to='/new' className='new-record btn btn-outline-success me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}> <SlUserFollow size='22px' /> {isdesktop ? 'Nuevo' : null}</Link>
+                        <Link to='/new' className='new-record btn btn-outline-success me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}> <FaUserPlus size='22px' /> {isdesktop ? 'Nuevo' : null}</Link>
 
                         <button onClick={()=>showExpPDF()} className='new-record btn btn-outline-success me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}> <ImFilePdf size='22px' color='#D7113E' /> {isdesktop ? 'Exportar' : null}</button> 
 
@@ -291,7 +277,7 @@ const CompShowusers = ({ getname, notify }) => {
                               <td><p> {formatDate(user.updatedAt)} </p></td>
                               <td> <p>{user.enabled === true ? <span style={{ color: '#36956A' }}>Activo</span> : <span style={{ color: '#D3691F' }}>Inactivo</span>} </p></td>
                               <td className='actions'>
-                                <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><SlSettings className='actionIcon' size='26px' /></Link>
+                                <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><FaUserPen className='actionIcon' size='26px' /></Link>
                                 <button className='btn btn-sm' id='deleteIcon' data-bs-toggle="modal" data-bs-target="#deleteModal"
                                   onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => {
                                     setSelectedId(user.id); setSelectedUser(user.user)
@@ -353,7 +339,7 @@ const CompShowusers = ({ getname, notify }) => {
               </div>
             </>
             : <CompLoader />
-          : <CompNoAuth />
+          : <CompNoAuth admin={admin} id={id} />
       }
     </>
   )

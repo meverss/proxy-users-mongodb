@@ -382,8 +382,8 @@ p {
   object-fit: contain;
 }
 
-.noAccessText,
-.notFoundText {
+.noAccessText p,
+.notFoundText p{
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 8px;
@@ -638,6 +638,7 @@ modal-body {
 
   .notFoundText {
     margin-top: -40px;
+    font-weight: bold;
   }
 
   .btn-tool {

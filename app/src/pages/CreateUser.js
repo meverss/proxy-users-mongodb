@@ -2,9 +2,9 @@
 import axios from '../libs/axios.js'
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import unathorized from '../images/401.webp'
 import { ValidateAll } from '../components/Validators.js'
-import { serverContext } from '../App';
+import { serverContext } from '../App'
+import CompNoAuth from '../components/CompNoAuth.js'
 
 const CompCreateUser = ({ getname, notify }) => {
 
@@ -175,11 +175,7 @@ const CompCreateUser = ({ getname, notify }) => {
             </div>
           </div>
           :
-          <>
-            <div className='unauthCont'>
-              <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img></a>
-            </div>
-          </>
+	<CompNoAuth id={id}/>
       }
     </>
   )

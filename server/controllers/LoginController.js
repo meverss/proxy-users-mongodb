@@ -40,8 +40,6 @@ export const userLogin = async (req, res) => {
 	id = userFound._id
     	fullname = userFound.fullname
 	passwordHashed = userFound.password
-    } else if(!userFound || !newAdmin){
-	res.sendStatus(403)
     }
 
     // Verify credentials and create token //
