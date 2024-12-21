@@ -78,9 +78,9 @@ export const exportPDF = (data, option) => {
     doc.line(16,`${la}`,200, la,'FD')
     y = la + 7
     doc.setFontSize(10)
-    doc.text('Aquí va un texto',16,y)
+//    doc.text('Aquí va un texto',16,y)
     y += 4.5
-    doc.text('JavaScript .Reduce() is an amazing feature we can solve most complex logic with its accumulator concept I strongly recommend to read my this 3 mints article . In which I show how we can use .reduce() to solve complex logic in short code',16,y,{align:"justify", maxWidth: 90})
+//    doc.text('JavaScript .Reduce() is an amazing feature we can solve most complex logic with its accumulator concept I strongly recommend to read my this 3 mints article . In which I show how we can use .reduce() to solve complex logic in short code',16,y,{align:"justify", maxWidth: 90})
     y+=5
 
     doc.save(`usuarios_${view}.pdf`)

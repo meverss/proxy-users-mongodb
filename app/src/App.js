@@ -18,6 +18,7 @@ import CompCreateUser from './pages/CreateUser.js'
 import CompEditUser from './pages/EditUser.js'
 import CompLogin from './pages/CompLogin.js'
 import CompPageNotFound from './pages/CompPageNotFound.js'
+import CompNoAuth from './pages/CompNoAuth.js'
 
 // Set backend server
 export const serverContext = createContext()
@@ -30,6 +31,7 @@ const currentYear = today.getFullYear()
 // App Component
 const App = () => {
   const [user, setUser] = useState('')
+  const [id, setId] = useState('')
   const [notifyIcon, setNotifyIcon] = useState('')
   const [notifyText, setNotifyText] = useState('')
   const [theme, setTheme] = useState('')
@@ -38,12 +40,18 @@ const App = () => {
 
   useEffect(() => {
     getName()
+    getId()
     getTheme()
   }, [])
 
   const getName = (name) => {
     setUser(name)
   }
+
+  const getId = (id) => {
+      setId(id)
+  }
+  
 
   // Theme switch (Light/Dark)
   const systemTheme = window.matchMedia('(prefers-color-scheme: light)')
@@ -180,6 +188,7 @@ const App = () => {
                 <Route path='/login' element={<CompLogin />} />
                 <Route path='/new' element={<CompCreateUser getname={getName} notify={showNotification} />} />
                 <Route path='/edit/:id' element={<CompEditUser getname={getName} notify={showNotification} />} />
+                <Route path='/noauth' element={<CompNoAuth getId={getId} />} />
                 <Route path='/error' element={<CompPageNotFound getname={getName} />} />
                 <Route path='*' element={<Navigate to="/error" />} />
 

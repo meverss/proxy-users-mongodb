@@ -110,7 +110,7 @@ const CompLogin = ({ notify, getLoginMsg }) => {
                     <div className="input-group mb-3">
                       <span className="input-group-text" id="basic-addon1"><SlUser className='formIcons' /></span>
                       <input type="text" className="form-control" id='userInput' name='userInput' placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
-                        onChange={(e) => { setUser(e.target.value.toLowerCase()) }} />
+                        onChange={(e) => { setUser(e.target.value.toLowerCase().trim()) }} />
                     </div>
 
                     <div className="input-group mb-3">

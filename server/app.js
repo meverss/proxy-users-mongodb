@@ -35,7 +35,7 @@ app.use('/api', verifyUser, (req, res) => {
   const auth = (req.headers.authorization).split(' ')
   const token = auth[1]
   const { id, user, fullname } = jwt.decode(token)
-  res.json({ verified: true, id, user, fullname, token })
+  res.json({ id, user, fullname, token, verified: true })
 })
 
 app.use((req, res) => {

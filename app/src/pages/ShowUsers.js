@@ -6,7 +6,7 @@ import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import CompPagination from '../components/CompPagination'
 import { CompLoader } from '../components/CompLoader'
-import CompNoAuth from '../components/CompNoAuth.js'
+import CompNoAuth from './CompNoAuth.js'
 import { serverContext } from '../App'
 import exportPDF from "../libs/usersPDF.js"
 import { formatDate  } from '../libs/formatDate.js'
@@ -23,7 +23,7 @@ const CompShowusers = ({ getname, notify }) => {
   const URI = `${server}/users/`
 
   const [users, setUsers] = useState([])
-  const [admin, setAdmin] = useState(false)
+  const [admin, setAdmin] = useState(true)
   const [id, setId] = useState('')
   const [selectedId, setSelectedId] = useState('')
   const [selectedUser, setSelectedUser] = useState('')
@@ -48,8 +48,8 @@ const CompShowusers = ({ getname, notify }) => {
     const verifyUser = async () => {
       const res = await axios.get(`${server}`)
       if (res.data.verified === true) {
-        if (res.data.user === 'admin') {
-          setAdmin(true)
+        if (res.data.user !== 'admin') {
+          setAdmin(false)
         }
         setId(res.data.id)
         getname(res.data.fullname)
@@ -338,8 +338,8 @@ const CompShowusers = ({ getname, notify }) => {
                 <p><BsFillPersonXFill /> Inactivos: {inactive}</p>
               </div>
             </>
-            : <CompLoader />
-          : <CompNoAuth admin={admin} id={id} />
+          : <CompLoader />
+          : <CompNoAuth />
       }
     </>
   )

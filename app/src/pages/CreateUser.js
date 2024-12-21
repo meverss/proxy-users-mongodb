@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ValidateAll } from '../components/Validators.js'
 import { serverContext } from '../App'
-import CompNoAuth from '../components/CompNoAuth.js'
+import CompNoAuth from './CompNoAuth.js'
 
 const CompCreateUser = ({ getname, notify }) => {
 
@@ -13,7 +13,7 @@ const CompCreateUser = ({ getname, notify }) => {
 
   const [user, setUser] = useState('')
   const [id, setId] = useState('')
-  const [admin, setAdmin] = useState(false)
+  const [admin, setAdmin] = useState(true)
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
   const [fullname, setFullname] = useState('')
@@ -29,8 +29,8 @@ const CompCreateUser = ({ getname, notify }) => {
       const verifyUser = async () => {
         const res = await axios.get(`${server}`)
         if (res.data.verified === true) {
-          if (res.data.user === 'admin') {
-            setAdmin(true)
+          if (res.data.user !== 'admin') {
+            setAdmin(false)
           }
           setId(res.data.id)
           getname(res.data.fullname)
@@ -106,7 +106,7 @@ const CompCreateUser = ({ getname, notify }) => {
       notify('err', <p>{error}</p>)
     }
   }
-
+  
   return (
     <>
       {
@@ -121,7 +121,7 @@ const CompCreateUser = ({ getname, notify }) => {
                   <input
                     className='form-control pwdfield'
                     value={user}
-                    onChange={(e) => setUser(e.target.value.toLowerCase())}
+                    onChange={(e) => setUser(e.target.value.toLowerCase().trim())}
                     onKeyUp={(e) => searchAvailable(e.target.value.toLowerCase())}
                     type='text'
                     data-frminfo='user'
@@ -175,7 +175,7 @@ const CompCreateUser = ({ getname, notify }) => {
             </div>
           </div>
           :
-	<CompNoAuth id={id}/>
+	<CompNoAuth />
       }
     </>
   )

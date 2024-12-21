@@ -9,5 +9,5 @@ app.set('appName', 'proxy-users')
 // Run Server
 connectDB()
 app.listen(PORT, () => {
-  console.log(`Server listenning on port ${PORT}...`)
+  console.log(`>>> Server listenning on port ${PORT}.`)
 })
