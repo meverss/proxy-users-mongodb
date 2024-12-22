@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000', URI.toString],
+  origin: ['http://localhost:3000', URI.toString, 'https://proxyusers.vercel.app'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))
