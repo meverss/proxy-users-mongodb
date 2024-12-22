@@ -22,7 +22,8 @@ import CompNoAuth from './pages/CompNoAuth.js'
 
 // Set backend server
 export const serverContext = createContext()
-const server = `http://${window.location.hostname}:4000/api`
+//const server = `http://${window.location.hostname}:4000/api`
+const server = 'https://proxyusers-server.vercel.app/api'
 
 const timestamp = Date.now()
 const today = new Date(timestamp)
