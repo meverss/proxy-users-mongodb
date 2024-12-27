@@ -160,7 +160,7 @@ const App = () => {
                 <div className="sessionInfo d-inline-flex" id='logOut'>
                   	<span className='session userName' id='userName'>{user}</span>
                     < button className="session btn" id='themeSwitch' type="button" onClick={changeThemeUser}>{themeIcon}</button>
-                    < button className="session btn" id='logOut' hidden={user !== undefined ? false : true} type="button" onClick={logOut} ><IoLogOutOutline className='logOut menuIcon animate__animated animate__bounceIn' size='26px'  /></button>
+                    < button className="session btn" id='logOut' hidden={user !== '' ? false : true} type="button" onClick={logOut} ><IoLogOutOutline className='logOut menuIcon animate__animated animate__bounceIn' size='26px'  /></button>
                 </div>
               </div>
             </nav >
