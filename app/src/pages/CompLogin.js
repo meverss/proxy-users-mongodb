@@ -2,14 +2,16 @@
 import axios from '../libs/axios.js'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { SlUser, SlLock } from "react-icons/sl"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useRef } from "react"
 import { useNavigate } from 'react-router-dom'
 import { serverContext } from '../App'
 
-const CompLogin = ({ notify, getLoginMsg }) => {
+const CompLogin = ({ authUser, notify, getLoginMsg }) => {
 
   const server = useContext(serverContext)
   const URI = `${server}/login`
+  
+  const userInputRef = useRef()
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
@@ -25,8 +27,8 @@ const CompLogin = ({ notify, getLoginMsg }) => {
     }
 
     verifyUser()
-    focus()
     animForm()
+    userInputRef.current.focus()
   }, [])
   
   const showPassword = () => {
@@ -86,13 +88,6 @@ const CompLogin = ({ notify, getLoginMsg }) => {
     }
   }
 
-  const focus = () => {
-    const userInput = document.getElementById('userInput')
-    if (userInput) {
-      userInput.focus()
-    }
-  }
-
   return (
     <>
       <div>
@@ -109,7 +104,7 @@ const CompLogin = ({ notify, getLoginMsg }) => {
 
                     <div className="input-group mb-3">
                       <span className="input-group-text" id="basic-addon1"><SlUser className='formIcons' /></span>
-                      <input type="text" className="form-control" id='userInput' name='userInput' placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
+                      <input type="text" ref={userInputRef} className="form-control" id='userInput' name='userInput' placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
                         onChange={(e) => { setUser(e.target.value.toLowerCase().trim()) }} />
                     </div>
 

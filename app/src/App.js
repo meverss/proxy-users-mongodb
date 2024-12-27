@@ -8,6 +8,7 @@ import { RiMoonLine } from "react-icons/ri"
 import { PiGearFill } from "react-icons/pi"
 import bgLight from "./images/background_app.webp"
 import bgDark from "./images/background_app_dark.jpg"
+import { getYear } from './libs/formatDate.js'
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
@@ -25,10 +26,6 @@ export const serverContext = createContext()
 //const server = `http://${window.location.hostname}:4000/api`
 const server = 'https://proxyusers-server.vercel.app/api'
 
-const timestamp = Date.now()
-const today = new Date(timestamp)
-const currentYear = today.getFullYear()
-
 // App Component
 const App = () => {
   const [user, setUser] = useState('')
@@ -40,7 +37,6 @@ const App = () => {
   const [loginMsg, setLoginMsg] = useState('')
 
   useEffect(() => {
-    getName()
     getId()
     getTheme()
   }, [])
@@ -48,11 +44,10 @@ const App = () => {
   const getName = (name) => {
     setUser(name)
   }
-
+  
   const getId = (id) => {
       setId(id)
   }
-  
 
   // Theme switch (Light/Dark)
   const systemTheme = window.matchMedia('(prefers-color-scheme: light)')
@@ -199,7 +194,7 @@ const App = () => {
           </div>
         </div >
         <div className='footer1'>
-          <p>Powered by KiniunDev™ - Copyright© {currentYear}</p>
+          <p>Powered by KiniunDev™ - Copyright© {getYear()}</p>
         </div>
       </>
     </serverContext.Provider>

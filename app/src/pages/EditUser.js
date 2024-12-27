@@ -1,16 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from '../libs/axios.js'
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { ValidateAll } from '../components/Validators.js'
 import { serverContext } from '../App.js'
 import { CompLoader } from '../components/CompLoader.js'
+import { useVerify } from '../hooks/useVerify.js'
 
 const CompEditUser = ({ getname, notify }) => {
 
   const server = useContext(serverContext)
   const URI = `${server}/users/`
+
+  const { authFullname, admin} = useVerify()
+  const userInputRef = useRef()
+  const passwdInputRef = useRef()
 
   const [user, setUser] = useState('')
   const [prevUser, setPrevUser] = useState('')
@@ -18,7 +23,6 @@ const CompEditUser = ({ getname, notify }) => {
   const [selfullname, setSelFullName] = useState('')
   const [prevFullname, setPrevFullName] = useState('')
   const [authUser, setAuthUser] = useState('')
-  const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
   const [viewpassword, setViewPassword] = useState(<FaEye className='eye' />)
@@ -32,31 +36,17 @@ const CompEditUser = ({ getname, notify }) => {
   const pwdInput = document.getElementById('pwdInput')
   const pwdVInput = document.getElementById('pwdVInput')
 
+  getname(authFullname)
+  
   useEffect(() => {
-    try {
-      const verifyUser = async () => {
-        const res = await axios.get(`${server}`)
-        if (res.data.verified === true) {
-          if (res.data.user === 'admin') {
-            setAdmin(true)
-          }
-          getname(res.data.fullname)
-          return
-        } else {
-          navigate('/login')
-        }
-      }
-
-      verifyUser()
-      getUserById()
-      focus()
-
-    } catch (error) {
-      notify('err', <p>{error}</p>)
-    }
+    getUserById()
   }, [])
 
-  const getUserById = async () => {
+    if(userInputRef.current !== undefined){
+	admin && seluser != 'admin' ? userInputRef.current.focus() : passwdInputRef.current.focus()
+    }
+
+    const getUserById = async () => {
     const stateSwitch = document.getElementById('userState')
     const stateLabel = document.getElementById('userStateLabel')
 
@@ -88,13 +78,6 @@ const CompEditUser = ({ getname, notify }) => {
     } catch (error) {
       navigate(`/edit/${error.response.data.authId}`)
       window.location.reload(true)
-    }
-  }
-
-  const focus = () => {
-    const pwdInput = document.getElementById('pwdInput')
-    if (pwdInput !== null) {
-      pwdInput.focus()
     }
   }
 
@@ -221,6 +204,7 @@ const CompEditUser = ({ getname, notify }) => {
                   type='text'
                   disabled={user === 'admin' || !admin ? true : false}
                   data-frminfo='user'
+                  ref={userInputRef}
                 />
               </div>
               <div className='input-group mb-3'>
@@ -242,6 +226,7 @@ const CompEditUser = ({ getname, notify }) => {
                   data-frminfo='password'
                   className="form-control pwdfield"
                   placeholder='********'
+                  ref={passwdInputRef}
                   onChange={(e) => setPassword(e.target.value)} />
                 <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
               </div>

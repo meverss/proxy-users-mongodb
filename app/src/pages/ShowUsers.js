@@ -9,7 +9,8 @@ import { CompLoader } from '../components/CompLoader'
 import CompNoAuth from './CompNoAuth.js'
 import { serverContext } from '../App'
 import exportPDF from "../libs/usersPDF.js"
-import { formatDate  } from '../libs/formatDate.js'
+import { formatDate } from '../libs/formatDate.js'
+import { useVerify } from '../hooks/useVerify.js'
 
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier, SlSettings } from "react-icons/sl"
@@ -18,13 +19,13 @@ import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti"
 import { FaUserPlus } from "react-icons/fa"
 import { FaUserPen  } from "react-icons/fa6"
 
-const CompShowusers = ({ getname, notify }) => {
+const CompShowusers = ({name, getname, notify }) => {
   const server = useContext(serverContext)
   const URI = `${server}/users/`
+  
+  const { id, authFullname, admin } = useVerify()
 
   const [users, setUsers] = useState([])
-  const [admin, setAdmin] = useState(true)
-  const [id, setId] = useState('')
   const [selectedId, setSelectedId] = useState('')
   const [selectedUser, setSelectedUser] = useState('')
   const [active, setActive] = useState('')
@@ -44,22 +45,10 @@ const CompShowusers = ({ getname, notify }) => {
   const lastIndex = currentPage * usersPerPage
   const firstIndex = lastIndex - usersPerPage
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      const res = await axios.get(`${server}`)
-      if (res.data.verified === true) {
-        if (res.data.user !== 'admin') {
-          setAdmin(false)
-        }
-        setId(res.data.id)
-        getname(res.data.fullname)
-        return
-      } else {
-        navigate('/login')
-      }
-    }  
+  // Get logged user's name
+  getname(authFullname)
 
-    verifyUser()
+  useEffect(() => {
     getUsers()
     searchShortCut()
   }, [])

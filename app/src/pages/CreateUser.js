@@ -1,19 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from '../libs/axios.js'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ValidateAll } from '../components/Validators.js'
 import { serverContext } from '../App'
 import CompNoAuth from './CompNoAuth.js'
+import { useVerify } from '../hooks/useVerify.js'
 
 const CompCreateUser = ({ getname, notify }) => {
+
+  const userInputRef = useRef()
+  const {authFullname, admin } = useVerify()
 
   const server = useContext(serverContext)
   const URI = `${server}/users/`
 
   const [user, setUser] = useState('')
-  const [id, setId] = useState('')
-  const [admin, setAdmin] = useState(true)
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
   const [fullname, setFullname] = useState('')
@@ -23,36 +25,12 @@ const CompCreateUser = ({ getname, notify }) => {
   const pwdVInput = document.getElementById('pwdVInput')
 
   const navigate = useNavigate()
-
-  useEffect(() => {
-    try {
-      const verifyUser = async () => {
-        const res = await axios.get(`${server}`)
-        if (res.data.verified === true) {
-          if (res.data.user !== 'admin') {
-            setAdmin(false)
-          }
-          setId(res.data.id)
-          getname(res.data.fullname)
-          return
-        } else {
-          navigate('/login')
-        }
-      }
-      verifyUser()
-    } catch (error) {
-      console.log(error)
-    }
-
-    checkUser()
-  }, [getname, navigate])
-
-  const checkUser = async () => {
-    try {
-      await axios.get(URI)
-    } catch (error) {
-    }
-  }
+  
+  getname(authFullname)
+  
+ useEffect(() => {
+    userInputRef.current.focus()
+ }, [])
 
   const searchAvailable = async (filter) => {
     try {
@@ -111,7 +89,7 @@ const CompCreateUser = ({ getname, notify }) => {
     <>
       {
         admin ?
-          <div className='createBox'>
+          <div className='createBox' >
             <div className='container createUser shadow-sm'>
               <h1 className='sessionTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
               <br />
@@ -124,6 +102,7 @@ const CompCreateUser = ({ getname, notify }) => {
                     onChange={(e) => setUser(e.target.value.toLowerCase().trim())}
                     onKeyUp={(e) => searchAvailable(e.target.value.toLowerCase())}
                     type='text'
+                    ref={userInputRef}
                     data-frminfo='user'
                   />
                 </div>
