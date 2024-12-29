@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.js'
+//import 'bootstrap/dist/css/bootstrap.css'
+//import 'bootstrap/dist/js/bootstrap.js'
 import './App.css'
 import { React, useState, useEffect, createContext } from 'react'
 import { FaCircleCheck, FaTriangleExclamation, FaCircleExclamation } from "react-icons/fa6";
@@ -14,17 +14,17 @@ import { getYear } from './libs/formatDate.js'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 // Import Components
-import CompShowUsers from './pages/ShowUsers.js'
-import CompCreateUser from './pages/CreateUser.js'
-import CompEditUser from './pages/EditUser.js'
-import CompLogin from './pages/CompLogin.js'
-import CompPageNotFound from './pages/CompPageNotFound.js'
-import CompNoAuth from './pages/CompNoAuth.js'
+import CompTest from './pages/CompTest.js'
+//import CompCreateUser from './pages/CreateUser.js'
+//import CompEditUser from './pages/EditUser.js'
+//import CompLogin from './pages/CompLogin.js'
+//import CompPageNotFound from './pages/CompPageNotFound.js'
+//import CompNoAuth from './pages/CompNoAuth.js'
 
 // Set backend server
 export const serverContext = createContext()
-//const server = `http://${window.location.hostname}:4000/api`
-const server = 'https://proxyusers-server.vercel.app/api'
+const server = `http://${window.location.hostname}:4000/api`
+//const server = 'https://proxyusers-server.vercel.app/api'
 
 // App Component
 const App = () => {
@@ -37,7 +37,7 @@ const App = () => {
   const [loginMsg, setLoginMsg] = useState('')
 
   useEffect(() => {
-    getId()
+//    getId()
     getTheme()
   }, [])
 
@@ -145,57 +145,19 @@ const App = () => {
     <serverContext.Provider value={server}>
       <>
         <div id='appDiv' data-theme={theme} data-bs-theme={theme} >
-          <div className='App' style={{
-             backgroundImage: `url(${theme === 'light' ? bgLight : bgDark})`,
-             backgroundRepeat: 'no-repeat',
-             backgroundSize: 'cover',
-             backgroundPosition: 'top',
-             backgroundAttachment: 'fixed',
-           }}>
-            <nav className="navbar">
-              <div className="container-fluid">
-                <div className='Title'>
-                  <p className="App-Title "><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></p>
-                </div>
-                <div className="sessionInfo d-inline-flex" id='logOut'>
-                  	<span className='session userName' id='userName'>{user}</span>
-                    < button className="session btn" id='themeSwitch' type="button" onClick={changeThemeUser}>{themeIcon}</button>
-                    < button className="session btn" id='logOut' hidden={user !== '' ? false : true} type="button" onClick={logOut} ><IoLogOutOutline className='logOut menuIcon animate__animated animate__bounceIn' size='26px'  /></button>
-                </div>
-              </div>
-            </nav >
 
-            {/* Notification */}
-            <section className="s_notifications" id="s_notifications">
-              <div className="ntf_box" id="ntf_box">
-                <div className="ntf_msg" id="ntf_msg">
-                  <div className="ntf_icon">{notifyIcon}</div>
-                  <div className="ntf_text">
-                    {notifyText}
-                  </div>
-                </div>
-              </div>
-            </section>
-            <br />
             <BrowserRouter forceRefresh={true}>
               <Routes>
-                <Route path='/' element={<CompShowUsers
-                  getname={getName} notify={showNotification} />} />
-                <Route path='/login' element={<CompLogin />} />
-                <Route path='/new' element={<CompCreateUser getname={getName} notify={showNotification} />} />
-                <Route path='/edit/:id' element={<CompEditUser getname={getName} notify={showNotification} />} />
+                <Route path='/' element={<CompTest />} />
                 <Route path='/noauth' element={<CompNoAuth getId={getId} />} />
                 <Route path='/error' element={<CompPageNotFound getname={getName} />} />
                 <Route path='*' element={<Navigate to="/error" />} />
 
               </Routes>
             </BrowserRouter>
-
-          </div>
         </div >
         <div className='footer1'>
-          <p>Powered by KiniunDev™ - Copyright© {getYear()}</p>
-        </div>
+          <p>Powered by KiniunDev™ - Copyright© {getYear()}</p>        </div>
       </>
     </serverContext.Provider>
   )

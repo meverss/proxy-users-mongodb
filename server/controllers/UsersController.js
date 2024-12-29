@@ -2,6 +2,7 @@ import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
 import { nanoid } from 'nanoid'
 import User from '../database/models/users.model.js'
+import sendMail from '../libs/mailer.js'
 
 const passAuth = (req) => {
   const auth = req.get('authorization')
@@ -69,15 +70,6 @@ export const getOneUser = async (req, res) => {
   }
 }
 
-// Get User Name
-export const getUserName = async (req, res) => {
-  const auth = (req.headers.authorization).split(' ')
-  const token = auth[1]
-
-  const { id, user, fullname } = (jwt.decode(token))
-  res.json({ id, user, fullname })
-}
-
 // Create a User
 export const createUser = async (req, res) => {
   const { user, password, fullname } = req.body
@@ -95,6 +87,12 @@ export const createUser = async (req, res) => {
   	})
   	  
   	await newUser.save()
+  	
+  	// Send e-mail
+  	
+  	
+  	
+  	/////
 
     console.log(`Added new user ${fullname}`)
     res.sendStatus(204)
