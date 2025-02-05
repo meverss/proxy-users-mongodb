@@ -37,7 +37,6 @@ const CompLogin = ({ authUser, notify, getLoginMsg }) => {
     if (pwd.type === 'password') {
       pwd.type = 'text'
       setViewPassword(<FaEyeSlash className='eye' />)
-      notify('ok','ghhh')
     } else {
       pwd.type = 'password'
       setViewPassword(<FaEye className='eye' />)

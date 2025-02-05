@@ -1,7 +1,6 @@
 import app from './app.js'
 import { PORT } from './config.js'
 import { connectDB } from './database/db.js'
-import sendEmail from './libs/mailer.js'
 
 // Settings
 app.set('case sensitive routing', true)

@@ -140,7 +140,7 @@ const App = () => {
     }, 2500)
 
   }
-
+  
   return (
     <serverContext.Provider value={server}>
       <>
@@ -177,6 +177,7 @@ const App = () => {
               </div>
             </section>
             <br />
+            
             <BrowserRouter forceRefresh={true}>
               <Routes>
                 <Route path='/' element={<CompShowUsers
