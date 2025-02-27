@@ -53,8 +53,7 @@ const CompShowusers = ({name, getname, notify }) => {
     searchShortCut()
   }, [])
 
- // Get users
-
+  // Get users
   const getUsers = async () => {
     try {
       const res = await axios.get(URI)

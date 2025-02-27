@@ -9,7 +9,7 @@ const sendEmail = () => {
 	    user: "kiniundev@gmail.com",
 	    pass: process.env.GMAIL_KEY,
 	  },
-	});
+	})
 
 	/* transporter.verify().then(() => {
 		console.log('Ready for sending e-mails.')
