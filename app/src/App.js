@@ -21,6 +21,21 @@ import CompLogin from './pages/CompLogin.js'
 import CompPageNotFound from './pages/CompPageNotFound.js'
 import CompNoAuth from './pages/CompNoAuth.js'
 
+// Register ServiceWorker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('Service Worker registered with scope:', registration.scope);
+
+        // Access the currently active worker
+        if (registration.active) {
+          console.log('Active worker:', registration.active.state);
+        }
+      })
+    })
+}
+
 // Set backend server
 export const serverContext = createContext()
 //const server = `http://${window.location.hostname}:4000/api`
