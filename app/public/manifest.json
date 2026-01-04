@@ -10,17 +10,12 @@
     {
       "src": "icon.webp",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/webp"
+      "type": "image/x-icon"
     },
     {
       "src": "icon192.webp",
-      "type": "image/webp",
+      "type": "image/png",
       "sizes": "192x192"
-    },
-    {
-      "src": "icon192.webp",
-      "type": "image/webp",
-      "sizes": "512x512"
     }
   ]
 }
