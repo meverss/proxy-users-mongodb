@@ -260,6 +260,13 @@ p {
   min-width: 900px;
 }
 
+.sticky-col {
+  position: -webkit-sticky;
+  position: sticky;
+  left: -20px;
+  z-index: 99999;
+}
+
 .editUser,
 .createUser {
   max-width: 800px;

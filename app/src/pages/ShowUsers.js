@@ -249,7 +249,7 @@ const CompShowusers = ({name, getname, notify }) => {
                         <thead className='table' style={{ backgroundColor: '#000' }}>
                           <tr>
                             <th><span className='header' onClick={sort}>Usuario {sortParam === 'Usuario' ? sortArrow : null}</span></th>
-                            <th><span className='header' onClick={sort}>Nombre y apellidos {sortParam === 'Nombre' ? sortArrow : null}</span></th>
+                            <th className="sticky-col"><span className='header' onClick={sort}>Nombre y apellidos {sortParam === 'Nombre' ? sortArrow : null}</span></th>
                             <th><span className='header' onClick={sort}>Creado {sortParam === 'Creado' ? sortArrow : null}</span></th>
                             <th><span className='header' onClick={sort}>Modificado {sortParam === 'Modificado' ? sortArrow : null}</span></th>
                             <th><span className='header' >Estado</span></th>
@@ -260,7 +260,7 @@ const CompShowusers = ({name, getname, notify }) => {
                           {sortedUsers.map((user) => (
                             <tr key={user.id} className='table-sm'>
                               <td><p id='admUser'> {user.user}</p> </td>
-                              <td><p> {user.fullname}</p> </td>
+                              <td className="sticky-col"><p> {user.fullname}</p> </td>
                               <td><p> {formatDate(user.createdAt)}</p> </td>
                               <td><p> {formatDate(user.updatedAt)} </p></td>
                               <td> <p>{user.enabled === true ? <span style={{ color: '#36956A' }}>Activo</span> : <span style={{ color: '#D3691F' }}>Inactivo</span>} </p></td>
